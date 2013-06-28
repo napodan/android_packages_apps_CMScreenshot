@@ -79,13 +79,13 @@ int get_pixel_order(struct fb_var_screeninfo *vinfo)
     /* RGBA */
 	if(vinfo->red.offset < vinfo->green.offset)
     {
-        LOGD("RGBA");
+        ALOGD("RGBA");
         return PIXEL_ORDER_RGBA;
     }
     /* BGRA */
     else if(vinfo->blue.offset < vinfo->green.offset)
     {
-        LOGD("BGRA");
+        ALOGD("BGRA");
         return PIXEL_ORDER_BGRA;
     }
     /* UNKNOWN */
@@ -123,7 +123,7 @@ void* tryfbmap(int framebufferHandle, int size)
     void *fbPixels = mmap(0, size, PROT_READ, MAP_SHARED, framebufferHandle, 0);
     if(fbPixels == MAP_FAILED)
     {
-        LOGD("failed to map memory\n");
+        ALOGD("failed to map memory\n");
         return NULL;
     }
     return fbPixels;
@@ -155,7 +155,7 @@ int main(int argc, char **argv)
     if (screenshot.update() != NO_ERROR) {
         struct fb_var_screeninfo vinfo;
 
-        LOGD("surfaceflinger capture failed. Falling back to fb and hoping for the best");
+        ALOGD("surfaceflinger capture failed. Falling back to fb and hoping for the best");
         framebufferHandle = open("/dev/graphics/fb0", O_RDONLY);
         if(framebufferHandle < 0)
             return 0;
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
         depth = vinfo.bits_per_pixel;
         mapSize = totalPixels * (depth/8);
         fcntl(framebufferHandle, F_SETFD, FD_CLOEXEC);
-        LOGD("Got %dx%dx%d framebuffer",w,h,depth);
+        ALOGD("Got %dx%dx%d framebuffer",w,h,depth);
         base = tryfbmap(framebufferHandle, mapSize);
         pixelOrder = get_pixel_order(&vinfo);
     } else {
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
         int *rgbaPixelsCursor = rgbaPixels;
         int *rgbaLast = rgbaPixels + totalPixels;
 
-        LOGV("Working with 16 depth and a mapsize of %d",mapSize);
+        ALOGV("Working with 16 depth and a mapsize of %d",mapSize);
 
         for(; rgbaPixelsCursor < rgbaLast; rgbaPixelsCursor++, baseCursor++)
         {
