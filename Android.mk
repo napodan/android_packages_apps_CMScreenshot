@@ -14,6 +14,7 @@ include $(CLEAR_VARS)
 
 LOCAL_SHARED_LIBRARIES := \
         libcutils \
+	liblog \
         libutils \
         libbinder \
         libui \
