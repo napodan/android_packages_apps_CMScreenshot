@@ -257,7 +257,8 @@ int main(int argc, char **argv)
     dibheader.nimpcolors = 0;
 
 
-    screenshotHandle = open(ssPath, O_WRONLY | O_CREAT);
+    screenshotHandle = open(ssPath, O_WRONLY | O_CREAT,
+	S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
     write(screenshotHandle, &magic, sizeof(magic));
     write(screenshotHandle, &header, sizeof(header));
     write(screenshotHandle, &dibheader, sizeof(dibheader));
